@@ -23,7 +23,19 @@ REM Install dependencies
 echo Installing dependencies...
 python -m pip install -r requirements.txt
 
+REM Check all dependencies
+echo.
+echo Checking all dependencies...
+python check_dependencies.py
+if errorlevel 1 (
+    echo.
+    echo Some dependencies are missing. Please check the messages above.
+    pause
+    exit /b 1
+)
+
 REM Verify PyInstaller installation
+echo.
 echo Verifying PyInstaller installation...
 python -m pip show pyinstaller >nul 2>&1
 if errorlevel 1 (

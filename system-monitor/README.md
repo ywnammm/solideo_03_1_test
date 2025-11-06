@@ -244,6 +244,34 @@ system-monitor/
    python -m PyInstaller system_monitor.spec
    ```
 
+#### "ModuleNotFoundError: No module named 'flask'" 오류 (실행 시)
+
+이는 빌드된 EXE를 실행할 때 발생하는 오류입니다.
+
+**해결 방법:**
+1. **의존성 확인**:
+   ```cmd
+   python check_dependencies.py
+   ```
+
+2. **모든 의존성 재설치**:
+   ```cmd
+   python -m pip uninstall -y flask werkzeug jinja2 click
+   python -m pip install -r requirements.txt
+   ```
+
+3. **빌드 폴더 완전 삭제 후 재빌드**:
+   ```cmd
+   rmdir /s /q build dist
+   build_simple.bat
+   ```
+
+4. **수동으로 빌드** (더 많은 정보 확인):
+   ```cmd
+   python -m pip install -r requirements.txt
+   python -m PyInstaller --clean system_monitor.spec
+   ```
+
 #### 빌드 중 "No module named 'xxx'" 오류
 
 **해결 방법:**

@@ -1,6 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_all, collect_submodules
 
 block_cipher = None
+
+# Collect all Flask and its dependencies
+flask_imports = collect_submodules('flask')
+werkzeug_imports = collect_submodules('werkzeug')
+jinja2_imports = collect_submodules('jinja2')
+click_imports = collect_submodules('click')
 
 a = Analysis(
     ['app.py'],
@@ -11,21 +18,54 @@ a = Analysis(
         ('static', 'static'),
     ],
     hiddenimports=[
-        'psutil',
-        'GPUtil',
+        # Flask and dependencies
         'flask',
+        'flask.json',
+        'flask.helpers',
+        'werkzeug',
+        'werkzeug.serving',
+        'werkzeug.routing',
+        'werkzeug.security',
+        'werkzeug.utils',
+        'jinja2',
+        'jinja2.ext',
+        'click',
+        'itsdangerous',
+        'markupsafe',
+        # System monitoring
+        'psutil',
+        'psutil._common',
+        'psutil._psutil_windows',
+        'GPUtil',
+        # Plotting
         'matplotlib',
+        'matplotlib.pyplot',
+        'matplotlib.figure',
+        'matplotlib.backends',
+        'matplotlib.backends.backend_agg',
         'matplotlib.backends.backend_pdf',
+        # PDF generation
         'reportlab',
         'reportlab.pdfgen',
+        'reportlab.pdfgen.canvas',
         'reportlab.lib',
+        'reportlab.lib.pagesizes',
+        'reportlab.lib.units',
+        'reportlab.platypus',
+        # Utilities
         'numpy',
         'PIL',
-    ],
+        'PIL.Image',
+        'datetime',
+        'json',
+        'threading',
+        'time',
+        'os',
+    ] + flask_imports + werkzeug_imports + jinja2_imports + click_imports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['tkinter', 'test', 'unittest'],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
     cipher=block_cipher,
