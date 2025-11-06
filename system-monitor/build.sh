@@ -17,7 +17,16 @@ source venv/bin/activate
 
 # Install dependencies
 echo "Installing dependencies..."
-pip install -r requirements.txt
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+
+# Verify PyInstaller installation
+echo "Verifying PyInstaller installation..."
+if ! python3 -m pip show pyinstaller > /dev/null 2>&1; then
+    echo "ERROR: PyInstaller is not installed!"
+    echo "Installing PyInstaller..."
+    python3 -m pip install pyinstaller
+fi
 
 # Clean previous builds
 echo "Cleaning previous builds..."
@@ -25,7 +34,17 @@ rm -rf build dist
 
 # Build executable
 echo "Building executable with PyInstaller..."
-pyinstaller system_monitor.spec
+python3 -m PyInstaller system_monitor.spec
+
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "============================================================"
+    echo "ERROR: Build failed!"
+    echo "============================================================"
+    echo "Please check the error messages above."
+    echo ""
+    exit 1
+fi
 
 # Create data directory in dist
 echo "Creating data directory..."

@@ -66,12 +66,17 @@ Python이 설치되지 않은 환경에서도 사용할 수 있도록 독립 실
 
 ### Windows에서 빌드
 
-```bash
-# 1. 빌드 스크립트 실행
+**방법 1: 자동 빌드 (가상환경 사용 - 권장)**
+```cmd
 build.bat
-
-# 빌드가 완료되면 dist/SystemMonitor/ 폴더에 실행 파일이 생성됩니다
 ```
+
+**방법 2: 간단 빌드 (가상환경 미사용)**
+```cmd
+build_simple.bat
+```
+
+빌드가 완료되면 `dist/SystemMonitor/` 폴더에 실행 파일이 생성됩니다.
 
 ### Linux/Mac에서 빌드
 
@@ -226,6 +231,38 @@ system-monitor/
 - 통계 분석 및 권장사항
 
 ## 문제 해결
+
+### EXE 빌드 문제
+
+#### "pyinstaller는 내부 또는 외부 명령이 아닙니다" 오류
+
+**해결 방법:**
+1. `build_simple.bat` 사용 (자동으로 해결됨)
+2. 또는 수동으로:
+   ```cmd
+   python -m pip install pyinstaller
+   python -m PyInstaller system_monitor.spec
+   ```
+
+#### 빌드 중 "No module named 'xxx'" 오류
+
+**해결 방법:**
+```cmd
+python -m pip install -r requirements.txt
+```
+
+#### 빌드 완료 후 실행 시 "Failed to execute script" 오류
+
+**해결 방법:**
+- `dist/SystemMonitor/` 폴더 전체를 함께 복사했는지 확인
+- `_internal/`, `templates/`, `static/` 폴더가 모두 있는지 확인
+
+#### Windows Defender가 EXE를 차단
+
+**해결 방법:**
+1. "추가 정보" 클릭
+2. "실행" 클릭
+3. 서명되지 않은 실행 파일에 대한 정상적인 경고입니다
 
 ### GPU 정보가 표시되지 않음
 - NVIDIA GPU가 없거나 드라이버가 설치되지 않은 경우 정상입니다.
