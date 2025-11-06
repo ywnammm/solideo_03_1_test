@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖥️ System Monitor Dashboard</h1>
+            <p class="subtitle">Real-time PC Resource Monitoring</p>
+        </header>
+
+        <div class="controls">
+            <button id="startBtn" class="btn btn-primary">Start 5-Minute Monitoring</button>
+            <button id="stopBtn" class="btn btn-danger" disabled>Stop Monitoring</button>
+            <button id="downloadBtn" class="btn btn-success" disabled>Download PDF Report</button>
+            <div class="status-indicator">
+                <span id="statusText">Ready</span>
+                <div class="progress-container" id="progressContainer" style="display: none;">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <span class="progress-text" id="progressText">0%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card cpu">
+                <div class="stat-header">
+                    <span class="stat-icon">⚡</span>
+                    <span class="stat-title">CPU Usage</span>
+                </div>
+                <div class="stat-value" id="cpuValue">0%</div>
+                <div class="stat-detail" id="cpuDetail">Loading...</div>
+            </div>
+
+            <div class="stat-card memory">
+                <div class="stat-header">
+                    <span class="stat-icon">💾</span>
+                    <span class="stat-title">Memory Usage</span>
+                </div>
+                <div class="stat-value" id="memoryValue">0%</div>
+                <div class="stat-detail" id="memoryDetail">Loading...</div>
+            </div>
+
+            <div class="stat-card disk">
+                <div class="stat-header">
+                    <span class="stat-icon">💿</span>
+                    <span class="stat-title">Disk Usage</span>
+                </div>
+                <div class="stat-value" id="diskValue">0%</div>
+                <div class="stat-detail" id="diskDetail">Loading...</div>
+            </div>
+
+            <div class="stat-card network">
+                <div class="stat-header">
+                    <span class="stat-icon">🌐</span>
+                    <span class="stat-title">Network</span>
+                </div>
+                <div class="stat-value" id="networkValue">0 MB</div>
+                <div class="stat-detail" id="networkDetail">Loading...</div>
+            </div>
+
+            <div class="stat-card gpu">
+                <div class="stat-header">
+                    <span class="stat-icon">🎮</span>
+                    <span class="stat-title">GPU Usage</span>
+                </div>
+                <div class="stat-value" id="gpuValue">N/A</div>
+                <div class="stat-detail" id="gpuDetail">Loading...</div>
+            </div>
+
+            <div class="stat-card temperature">
+                <div class="stat-header">
+                    <span class="stat-icon">🌡️</span>
+                    <span class="stat-title">Temperature</span>
+                </div>
+                <div class="stat-value" id="tempValue">N/A</div>
+                <div class="stat-detail" id="tempDetail">Loading...</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>CPU Usage Over Time</h3>
+                <canvas id="cpuChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>Memory Usage Over Time</h3>
+                <canvas id="memoryChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>Network Traffic</h3>
+                <canvas id="networkChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>Resource Comparison</h3>
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h3>System Details</h3>
+            <div class="details-grid">
+                <div class="detail-card">
+                    <h4>CPU Information</h4>
+                    <div id="cpuInfo">Loading...</div>
+                </div>
+                <div class="detail-card">
+                    <h4>Memory Information</h4>
+                    <div id="memoryInfo">Loading...</div>
+                </div>
+                <div class="detail-card">
+                    <h4>Disk Information</h4>
+                    <div id="diskInfo">Loading...</div>
+                </div>
+                <div class="detail-card">
+                    <h4>Network Information</h4>
+                    <div id="networkInfo">Loading...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h3>Top Processes (by CPU)</h3>
+            <table id="processTable">
+                <thead>
+                    <tr>
+                        <th>PID</th>
+                        <th>Name</th>
+                        <th>CPU %</th>
+                        <th>Memory %</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="processTableBody">
+                    <tr><td colspan="5">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
