@@ -11,6 +11,10 @@ ENV/
 dist/
 build/
 
+# PyInstaller
+*.spec.swp
+*.manifest
+
 # Data files
 data/*.json
 data/*.pdf

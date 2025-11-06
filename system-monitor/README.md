@@ -60,7 +60,57 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 사용 방법
+## EXE 파일로 빌드하기
+
+Python이 설치되지 않은 환경에서도 사용할 수 있도록 독립 실행 파일(exe)을 만들 수 있습니다.
+
+### Windows에서 빌드
+
+```bash
+# 1. 빌드 스크립트 실행
+build.bat
+
+# 빌드가 완료되면 dist/SystemMonitor/ 폴더에 실행 파일이 생성됩니다
+```
+
+### Linux/Mac에서 빌드
+
+```bash
+# 1. 빌드 스크립트에 실행 권한 부여
+chmod +x build.sh
+
+# 2. 빌드 스크립트 실행
+./build.sh
+
+# 빌드가 완료되면 dist/SystemMonitor/ 폴더에 실행 파일이 생성됩니다
+```
+
+### EXE 파일 사용 방법
+
+빌드가 완료되면 `dist/SystemMonitor/` 폴더가 생성됩니다:
+
+```
+dist/SystemMonitor/
+├── SystemMonitor.exe (또는 Linux/Mac의 경우 SystemMonitor)
+├── _internal/          # 필요한 라이브러리들
+├── templates/          # HTML 템플릿
+├── static/            # CSS, JS 파일
+├── data/              # 데이터 저장 폴더
+└── README.md          # 문서
+```
+
+**실행 방법:**
+
+1. `dist/SystemMonitor/` 폴더 전체를 원하는 위치로 복사
+2. `SystemMonitor.exe` (또는 `SystemMonitor`) 실행
+3. 브라우저에서 `http://localhost:5000` 접속
+
+**참고:**
+- EXE 파일은 Python 설치 없이 독립적으로 실행됩니다
+- 폴더 전체를 함께 배포해야 정상 작동합니다
+- 첫 실행 시 Windows Defender 경고가 나타날 수 있습니다 (정상)
+
+## 사용 방법 (Python으로 직접 실행)
 
 ### 1. 서버 실행
 
@@ -112,6 +162,11 @@ system-monitor/
 ├── pdf_generator.py        # PDF 리포트 생성
 ├── requirements.txt        # Python 의존성
 ├── README.md              # 문서
+├── system_monitor.spec    # PyInstaller 설정 파일
+├── build.bat              # Windows 빌드 스크립트
+├── build.sh               # Linux/Mac 빌드 스크립트
+├── START_MONITOR.bat      # Windows 실행 런처
+├── .gitignore             # Git 무시 파일
 ├── static/
 │   ├── css/
 │   │   └── style.css      # 스타일시트
@@ -119,7 +174,10 @@ system-monitor/
 │       └── dashboard.js   # 프론트엔드 로직
 ├── templates/
 │   └── index.html         # 메인 페이지
-└── data/                  # 수집된 데이터 및 PDF 저장
+├── data/                  # 수집된 데이터 및 PDF 저장
+├── build/                 # 빌드 임시 파일 (생성됨)
+└── dist/                  # 빌드 결과물 (생성됨)
+    └── SystemMonitor/     # 배포 가능한 실행 파일
 ```
 
 ## API 엔드포인트
